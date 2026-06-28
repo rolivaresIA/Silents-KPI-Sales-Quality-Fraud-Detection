@@ -1,128 +1,115 @@
-# Redefinición KPI Silentes – Sales Quality & Behavioral Fraud Detection
+# Redefinición KPI Silentes – KPI Validity & Behavioral Drift Analysis
 
-Pipeline analítico end-to-end para la redefinición del KPI de **ventas de baja calidad (“silentes”)**, basado en comportamiento real de red (tráfico de voz y datos) dentro de los primeros 21 días posteriores a la activación de un cliente (PCS).
+Proyecto analítico enfocado en la **evaluación y validación del KPI de “ventas de baja calidad (silentes)”**, con el objetivo de analizar si la definición operacional del indicador sigue siendo efectiva para capturar activaciones con baja adopción de servicio.
 
-El proyecto surge ante la necesidad de robustecer los indicadores comerciales, debido a que los equipos de venta comenzaron a **adaptarse a la métrica tradicional**, generando posibles distorsiones en la medición de calidad de ventas.
+El análisis se centra en detectar posibles **desviaciones o adaptación del KPI por parte de los equipos comerciales**, y en evaluar si las variables utilizadas originalmente siguen siendo suficientes para representar calidad real de venta.
 
 ---
 
 ## 📋 Contexto del Problema
 
-En el área comercial de telecomunicaciones, la calidad de ventas se medía históricamente mediante la activación del servicio.
+El KPI de “silentes” fue definido históricamente como:
 
-Sin embargo, este enfoque presentaba una limitación crítica:
+> Clientes (PCS) sin tráfico de voz ni datos dentro de los 21 días posteriores a la activación.
 
-- Los vendedores podían optimizar su comportamiento para cumplir el KPI sin garantizar uso real del servicio
-- No existía validación del consumo efectivo del cliente post activación
-- Se generaban activaciones con baja o nula adopción del servicio
+Sin embargo, con el tiempo se identificó un riesgo potencial:
 
-Con el tiempo, se observó que parte de la fuerza de ventas comenzó a **adaptarse a la métrica existente**, lo que redujo la capacidad del KPI original de reflejar calidad real.
+- Los equipos comerciales pueden adaptar su comportamiento a métricas conocidas
+- Las definiciones rígidas de KPI pueden perder capacidad explicativa en el tiempo
+- La relación entre activación y uso real puede evolucionar
+
+Esto genera la necesidad de responder una pregunta clave:
+
+> ❓ ¿La definición actual del KPI sigue capturando efectivamente las ventas de baja calidad?
 
 ---
 
 ## 🎯 Objetivo del Proyecto
 
-- Redefinir el KPI de calidad de ventas utilizando comportamiento real de red
-- Detectar clientes con baja o nula adopción del servicio (“silentes”)
-- Identificar patrones asociados a activaciones de baja calidad
-- Evaluar variables que explican el comportamiento silente
-- Mejorar la capacidad de priorización y auditoría comercial
+- Evaluar la validez del KPI “silentes” bajo su definición original
+- Analizar si las variables base del KPI siguen siendo discriminantes
+- Detectar patrones de comportamiento asociados a activaciones de baja calidad
+- Identificar posibles señales de “drift” o adaptación del KPI
+- Mejorar la interpretabilidad del indicador mediante análisis de variables
 
 ---
 
-## 📌 Definición del KPI – “Silentes”
+## 🧠 Hipótesis de Trabajo
 
-Se define como cliente silente a todo PCS que cumple:
-
-> ❌ No presenta tráfico de voz (entrante/saliente) ni datos dentro de los 21 días posteriores a la activación
-
-### Justificación de la ventana temporal:
-- ~90% de los clientes activos generan tráfico dentro de los primeros 21 días
-- La ausencia de actividad en este período es un fuerte indicador de baja adopción
-
----
-
-## 🧠 Hipótesis de Negocio
-
-- No todo cliente activado representa una venta efectiva
-- El comportamiento de red es un mejor proxy de calidad que la activación
-- Existen patrones sistemáticos asociados a activaciones de baja calidad
-- El KPI tradicional puede ser “optimizado artificialmente” por comportamiento operativo
+- La definición actual del KPI puede seguir siendo válida, pero no necesariamente óptima
+- El comportamiento de red permite validar la robustez del indicador
+- Existen variables adicionales que pueden mejorar la capacidad explicativa del KPI
+- El comportamiento temprano del usuario es clave para validar calidad de venta
 
 ---
 
 ## ⚙️ Data Sources
 
-- **Altas comerciales**
-  - Información de activaciones (PCS, canal, vendedor, plan, fecha de alta)
-
-- **Tráfico de voz**
-  - Llamadas entrantes y salientes
-
-- **Tráfico de datos**
-  - Consumo diario de internet móvil
+- Altas comerciales (activaciones de clientes)
+- Tráfico de voz (entrante y saliente)
+- Tráfico de datos móviles
 
 ---
 
 ## 🔄 Data Pipeline
 
-### 1. Ingesta de datos
-- Carga de altas comerciales desde fuentes internas (Excel / sistemas operacionales)
-- Extracción de tráfico de red desde BigQuery (GCP)
+### 1. Construcción del dataset base
+- Integración de altas comerciales con identificador PCS
+- Estandarización de fechas de activación
 
-### 2. Integración de datos
-- Join entre altas y tráfico por identificador PCS
-- Alineación temporal por fecha de activación
+### 2. Integración con comportamiento de red
+- Extracción de tráfico desde BigQuery (voz + datos)
+- Join temporal por PCS
 
-### 3. Construcción de ventana temporal
-- Seguimiento del comportamiento del cliente durante 21 días post alta
+### 3. Construcción de ventana de análisis
+- Seguimiento del comportamiento del cliente en los primeros 21 días post alta
 
-### 4. Feature engineering
-- Tráfico total diario
-- Suma acumulada de tráfico
-- Días sin actividad
-- Flags de uso (voz / datos)
-- Variables temporales post activación
+### 4. Generación de variables
+- Tráfico acumulado
+- Presencia/ausencia de actividad
+- Distribución temporal del uso
+- Flags de actividad temprana
 
 ---
 
-## 🌲 Enfoque Analítico (Decision Tree)
+## 🌲 Enfoque Analítico – Decision Tree
 
-Se utilizó un modelo de clasificación basado en **árboles de decisión** como herramienta interpretativa para:
+Se utilizó un modelo de árbol de decisión como herramienta interpretativa para:
 
-- Identificar variables más relevantes asociadas al comportamiento silente
-- Detectar reglas de segmentación simples y accionables
-- Evaluar patrones de comportamiento post activación
+- Evaluar qué variables explican mejor el comportamiento silente
+- Analizar la consistencia de la definición original del KPI
+- Identificar si la regla de negocio (21 días + ausencia de tráfico) sigue siendo óptima
+- Detectar posibles patrones alternativos de segmentación
 
 ### Rol del modelo:
-Este modelo no se utiliza como sistema predictivo en producción, sino como:
 
-> 🔎 herramienta de interpretación para entender drivers de baja adopción
+> El modelo no busca reemplazar el KPI, sino **evaluar su validez estructural y su capacidad de segmentación**
 
 ---
 
-## 📊 Resultados Analíticos
+## 📊 Resultados del Análisis
 
-- Identificación de un segmento relevante de clientes sin actividad de red en ventana crítica de 21 días
-- Evidencia de que el comportamiento temprano (primeros días post alta) es altamente predictivo de adopción futura
-- Validación de que la calidad de venta no puede ser medida únicamente por activación
+- La definición original del KPI mantiene capacidad de segmentación sobre comportamiento de red
+- El comportamiento temprano del usuario es un predictor clave de adopción futura
+- Existen variables adicionales que pueden complementar la definición original
+- El KPI muestra consistencia, pero con oportunidades de refinamiento
 
 ---
 
 ## 💡 Impacto de Negocio
 
-- Redefinición del KPI de ventas hacia un enfoque basado en comportamiento real de red
-- Mejora en la capacidad de auditoría de calidad comercial
-- Identificación de patrones asociados a activaciones de baja adopción
-- Mejora en la priorización de análisis sobre canales y vendedores con mayor concentración de “silentes”
+- Validación técnica del KPI “silentes” como indicador de calidad de venta
+- Mejora en la comprensión de la robustez del indicador en el tiempo
+- Identificación de oportunidades de mejora en la definición del KPI
+- Apoyo a decisiones de auditoría comercial basadas en evidencia de comportamiento real
 
 ---
 
 ## 📈 Insight Clave
 
-- La adopción de servicio se concentra en los primeros 21 días
-- La ausencia de tráfico en este período es un indicador robusto de baja calidad de venta
-- El comportamiento del cliente es un mejor proxy de calidad que la activación comercial
+- La ventana de 21 días sigue siendo un umbral relevante para observar adopción
+- La ausencia de tráfico en este periodo sigue siendo un fuerte indicador de baja calidad de venta
+- El comportamiento del usuario permite validar y no solo medir el KPI
 
 ---
 
@@ -133,7 +120,7 @@ Este modelo no se utiliza como sistema predictivo en producción, sino como:
 - SQL
 - Google Cloud Platform (GCP)
 - Jupyter Notebook
-- Excel / Data ingestion pipelines
+- Excel / Data ingestion
 
 ---
 
@@ -141,15 +128,15 @@ Este modelo no se utiliza como sistema predictivo en producción, sino como:
 
 ```text
 ├── notebooks/
-│   └── silentes_analysis.ipynb
+│   └── silentes_kpi_validation.ipynb
 │
 ├── presentation/
-│   └── Redefinicion_Silentes.pptx
+│   └── KPI_Redefinition_Silentes.pptx
 │
 ├── sql/
 │   └── traffic_extraction.sql
 │
 ├── data/
-│   └── processed_dataset.csv
+│   └── dataset_processed.csv
 │
 └── README.md
