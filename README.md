@@ -144,7 +144,7 @@ A partir del dataset final construido en el pipeline de tráfico y activaciones,
 
 Estas variables combinan señales de comportamiento del cliente junto con definiciones operativas del propio KPI.
 
-El objetivo de esta etapa no es modelar, sino **traducir comportamiento en features interpretables**.
+El objetivo de esta etapa no es modelar, sino **convertir comportamiento en señales modelables**.
 
 ---
 
@@ -172,7 +172,7 @@ Se entrenó un modelo de **Decision Tree (Árbol de Decisión)** con el objetivo
 
 A diferencia de modelos de tipo *black-box* (Random Forest, XGBoost), este enfoque prioriza la **interpretabilidad**, permitiendo derivar reglas directamente utilizables para el rediseño del KPI.
 
-El objetivo no es la predicción, sino la **validación estructural del KPI y la generación de reglas operativas basadas en datos**.
+El modelo se utiliza como una herramienta de extracción de patrones de comportamiento, no como un clasificador predictivo.
 
 ---
 
@@ -180,14 +180,14 @@ El objetivo no es la predicción, sino la **validación estructural del KPI y la
 
 - Identificar variables con mayor poder explicativo del comportamiento del cliente  
 - Evaluar la coherencia del KPI “Silentes” con señales observadas en los datos  
-- Derivar reglas simples que permitan operacionalizar calidad de venta  
-- Proponer mejoras en la definición del KPI basadas en evidencia  
+- Derivar reglas simples basadas en comportamiento real  
+- Proponer alternativas de definición del KPI basadas en evidencia  
 
 ---
 
 ## 🔝 Variables más relevantes del modelo
 
-El análisis de **feature importance** se utiliza como etapa de priorización de variables, permitiendo entender qué señales tienen mayor impacto antes de la construcción del árbol de decisión.
+El análisis de **feature importance** se utiliza como una etapa de pre-priorización de variables, permitiendo identificar las señales más relevantes antes de la construcción del árbol de decisión.
 
 | Variable | Importancia |
 |----------|------------:|
@@ -199,7 +199,7 @@ El análisis de **feature importance** se utiliza como etapa de priorización de
 
 ---
 
-### 📊 Feature Importance (etapa de priorización)
+### 📊 Feature Importance (Pre-Model Prioritization Layer)
 
 Esta visualización muestra la contribución relativa de cada variable en la explicación del comportamiento del cliente.
 
@@ -219,9 +219,9 @@ Con base en las variables priorizadas, se entrena el modelo de árbol de decisi�
 
 ---
 
-## 🧩 Reglas extraídas del modelo (rama principal)
+## 🧩 Decision Path – “Silente” Segment (Tree Branch Analysis)
 
-A partir del árbol se identifica una **ruta principal de segmentación** asociada al comportamiento “Silente”.
+El modelo permite identificar una ruta específica dentro del árbol de decisión que define el comportamiento “Silente”.
 
 Esta ruta corresponde a una combinación de condiciones que se cumplen de forma simultánea en una misma rama del árbol.
 
@@ -255,32 +255,28 @@ La interpretación se basa en una **ruta específica del árbol de decisión (de
 
 ## 📊 Evaluación de reglas propuestas (KPI redesign)
 
-A partir de los patrones identificados en el árbol de decisión, se proponen distintas definiciones operativas del KPI “Silentes”.
+A partir de los patrones identificados en el árbol de decisión, se proponen distintas definiciones operativas del KPI “Silentes”, basadas en diferentes niveles de simplificación del mismo decision path.
 
 | Definición | Regla | Precision | Recall |
 |------------|-------|----------:|-------:|
 | Actual | Regla original del negocio | 67% | 9% |
-| Propuesta 1 | Rama completa del árbol | 91.5% | 6.2% |
-| Propuesta 2 | Versión simplificada de la rama (sin cuentas aperturadas) | 58.9% | 33% |
+| Propuesta 1 | Decision path completo del árbol | 91.5% | 6.2% |
+| Propuesta 2 | Subset del decision path (sin cuentas aperturadas) | 58.9% | 33% |
 
 ---
 
 ### 📌 Diferencia entre las propuestas
 
-- **Propuesta 1 (rama completa del árbol):**  
-  Representa la segmentación más estricta identificada por el modelo, incorporando todas las condiciones de la rama “Silente”.
+- **Propuesta 1 (decision path completo):**  
+  Incluye todas las condiciones identificadas en la rama “Silente”, representando la definición más estricta del modelo.
 
-- **Propuesta 2 (regla simplificada):**  
-  Relaja la condición eliminando el criterio de cuentas aperturadas, ampliando la cobertura del KPI.
+- **Propuesta 2 (subset del decision path):**  
+  Mantiene las dos primeras condiciones del path, relajando el criterio de cuentas aperturadas para aumentar cobertura.
 
 Esto genera un comportamiento típico de trade-off:
 
 - Mayor precisión → reglas más estrictas (Propuesta 1)  
-- Mayor recall → reglas más amplias (Propuesta 2)
-
-<p align="center">
-  <img src="4.Outputs/comparative_proposals.PNG" width="600">
-</p>
+- Mayor recall → reglas más amplias (Propuesta 2)  
 
 ---
 
@@ -288,7 +284,9 @@ Esto genera un comportamiento típico de trade-off:
 
 El modelo confirma que el KPI “Silentes” no es arbitrario, sino que responde a patrones consistentes observables en el comportamiento del cliente.
 
-Sin embargo, su definición actual puede ser optimizada, ya que distintas combinaciones de variables generan mejoras significativas en la calidad operativa del indicador, habilitando su rediseño basado en evidencia.
+Sin embargo, su definición actual puede ser optimizada, ya que distintas configuraciones del mismo decision path generan mejoras significativas en la calidad operativa del indicador, habilitando su redefinición basada en evidencia estructurada del comportamiento del cliente.
+
+---
 
 ## 🛠️ Tech Stack
 
@@ -297,7 +295,8 @@ Sin embargo, su definición actual puede ser optimizada, ya que distintas combin
 - SQL
 - Google Cloud Platform (GCP)
 - Jupyter Notebook
-- Excel / Data ingestion
+- Machine Learning (Decision Tree)
+- Data Analysis / KPI Design
 
 ---
 
