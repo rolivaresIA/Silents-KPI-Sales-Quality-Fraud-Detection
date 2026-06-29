@@ -66,7 +66,7 @@ La siguiente tabla compara las predicciones del KPI con el comportamiento real o
 ### 📉 Visual Overview
 
 <p align="center">
-  <img src="4.Outputs/current_kpi_performance.PNG" width="600">
+  <img src="4.Outputs/current_kpi_performance.PNG" width="650">
 </p>
 
 ## 🎯 4. Objetivo del Proyecto
@@ -204,7 +204,7 @@ El análisis de **feature importance** se utiliza como una etapa de pre-prioriza
 Esta visualización muestra la contribución relativa de cada variable en la explicación del comportamiento del cliente.
 
 <p align="center">
-  <img src="4.Outputs/feature_importance.PNG" width="600">
+  <img src="4.Outputs/feature_importance.PNG" width="650">
 </p>
 
 ---
@@ -214,7 +214,7 @@ Esta visualización muestra la contribución relativa de cada variable en la exp
 Con base en las variables priorizadas, se entrena el modelo de árbol de decisión para extraer estructuras de decisión interpretables.
 
 <p align="center">
-  <img src="4.Outputs/decision_tree.PNG" width="700">
+  <img src="4.Outputs/decision_tree.PNG" width="750">
 </p>
 
 ---
@@ -278,6 +278,7 @@ Esto genera un comportamiento típico de trade-off:
 - Mayor precisión → reglas más estrictas (Propuesta 1)  
 - Mayor recall → reglas más amplias (Propuesta 2)  
 
+<p align="center"> <img src="4.Outputs/comparative_proposals.PNG" width="650"> </p>
 ---
 
 ## 🧠 Conclusión
