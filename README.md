@@ -1,4 +1,4 @@
-# 📊 Redefinición KPI Silentes – KPI Validity & Behavioral Drift Analysis
+<img width="746" height="62" alt="image" src="https://github.com/user-attachments/assets/190a90d9-f5e2-4a2d-ad73-ce0dd96b2e63" /># 📊 Redefinición KPI Silentes – KPI Validity & Behavioral Drift Analysis
 
 Proyecto analítico corporativo desarrollado en la industria de telecomunicaciones, enfocado en la validación y redefinición del KPI de ventas de baja calidad ("Silentes"), utilizando un modelo de clasificación Decision Tree para evaluar la efectividad del indicador y su evolución en el tiempo.
 
@@ -140,65 +140,151 @@ Script: `silentes_pipeline.py`
 
 ## 🌲 7. Feature Engineering / Variable Construction
 
-### 1. Construcción del dataset base
-- Integración de altas comerciales con identificador PCS
-- Estandarización de fechas de activación
+A partir del dataset final construido en el pipeline de tráfico y activaciones, se generan variables diseñadas para evaluar la capacidad explicativa del KPI “Silentes”.
 
-### 2. Integración con comportamiento de red
-- Extracción de tráfico desde BigQuery (voz + datos)
-- Join temporal por PCS
+Estas variables combinan señales de comportamiento del cliente junto con definiciones operativas del propio KPI.
 
-### 3. Construcción de ventana de análisis
-- Seguimiento del comportamiento del cliente en los primeros 21 días post alta
-
-### 4. Generación de variables
-- Tráfico acumulado
-- Presencia/ausencia de actividad
-- Distribución temporal del uso
-- Flags de actividad temprana
+El objetivo de esta etapa no es modelar, sino **traducir comportamiento en features interpretables**.
 
 ---
 
-## 🌲 Enfoque Analítico – Decision Tree
+### 📊 Features utilizadas en el modelo
 
-Se utilizó un modelo de árbol de decisión como herramienta interpretativa para:
-
-- Evaluar qué variables explican mejor el comportamiento silente
-- Analizar la consistencia de la definición original del KPI
-- Identificar si la regla de negocio (21 días + ausencia de tráfico) sigue siendo óptima
-- Detectar posibles patrones alternativos de segmentación
-
-### Rol del modelo:
-
-> El modelo no busca reemplazar el KPI, sino **evaluar su validez estructural y su capacidad de segmentación**
-
----
-
-## 📊 Resultados del Análisis
-
-- La definición original del KPI mantiene capacidad de segmentación sobre comportamiento de red
-- El comportamiento temprano del usuario es un predictor clave de adopción futura
-- Existen variables adicionales que pueden complementar la definición original
-- El KPI muestra consistencia, pero con oportunidades de refinamiento
+| Feature | Description |
+|----------|------------|
+| silent_21 | No traffic within 21 days |
+| silent_15 | No traffic within 15 days |
+| silent_10 | No traffic within 10 days |
+| silent_5  | No traffic within 5 days |
+| traffic_days_21 | Number of days with traffic |
+| customer_old | Existing customer flag |
+| old_account | Existing billing account |
+| accounts_opened | Number of accounts created |
+| incoming_calls | Incoming call duration |
+| outgoing_calls | Outgoing call duration |
+| mobile_data | Data consumption |
 
 ---
 
-## 💡 Impacto de Negocio
+## 🌲 8. Decision Tree Model – Interpretability & KPI Redesign Analysis
 
-- Validación técnica del KPI “silentes” como indicador de calidad de venta
-- Mejora en la comprensión de la robustez del indicador en el tiempo
-- Identificación de oportunidades de mejora en la definición del KPI
-- Apoyo a decisiones de auditoría comercial basadas en evidencia de comportamiento real
+Se entrenó un modelo de **Decision Tree (Árbol de Decisión)** con el objetivo de evaluar si la definición del KPI “Silentes” puede ser explicada y refinada a partir de variables observadas en el comportamiento del cliente.
+
+A diferencia de modelos de tipo *black-box* (Random Forest, XGBoost), este enfoque prioriza la **interpretabilidad**, permitiendo derivar reglas directamente utilizables para el rediseño del KPI.
+
+El objetivo no es la predicción, sino la **validación estructural del KPI y la generación de reglas operativas basadas en datos**.
+
+---
+
+### 🎯 Objetivo del modelo
+
+- Identificar variables con mayor poder explicativo del comportamiento del cliente  
+- Evaluar la coherencia del KPI “Silentes” con señales observadas en los datos  
+- Derivar reglas simples que permitan operacionalizar calidad de venta  
+- Proponer mejoras en la definición del KPI basadas en evidencia  
 
 ---
 
-## 📈 Insight Clave
+## 🔝 Variables más relevantes del modelo
 
-- La ventana de 21 días sigue siendo un umbral relevante para observar adopción
-- La ausencia de tráfico en este periodo sigue siendo un fuerte indicador de baja calidad de venta
-- El comportamiento del usuario permite validar y no solo medir el KPI
+El análisis de **feature importance** se utiliza como etapa de priorización de variables, permitiendo entender qué señales tienen mayor impacto antes de la construcción del árbol de decisión.
+
+| Variable | Importancia |
+|----------|------------:|
+| q_días_tráfico_21 | 49.6% |
+| cuenta_antigua | 25.7% |
+| cliente_antiguo | 14.2% |
+| q_cuentas_aperturadas | 8.9% |
+| duración_llamadas_entrantes | 1.5% |
 
 ---
+
+### 📊 Feature Importance (etapa de priorización)
+
+Esta visualización muestra la contribución relativa de cada variable en la explicación del comportamiento del cliente.
+
+<p align="center">
+  <img src="4.Outputs/feature_importance.PNG" width="650">
+</p>
+
+---
+
+### 🌿 Decision Tree (estructura de reglas)
+
+Con base en las variables priorizadas, se entrena el modelo de árbol de decisión para extraer estructuras de decisión interpretables.
+
+<p align="center">
+  <img src="4.Outputs/decision_tree.PNG" width="850">
+</p>
+
+---
+
+## 🧩 Reglas extraídas del modelo (rama principal)
+
+A partir del árbol se identifica una **ruta principal de segmentación** asociada al comportamiento “Silente”.
+
+Esta ruta corresponde a una combinación de condiciones que se cumplen de forma simultánea en una misma rama del árbol.
+
+### 🌿 Rama “Silente”
+
+- Si `días_tráfico_21 <= 13.5`  
+- Y `cuenta_facturación_antigua = 0`  
+- Y `cuentas_aperturadas >= 2.5`  
+
+→ Cliente clasificado como **“Silente”**
+
+---
+
+### 📌 Interpretación de la rama
+
+Esta combinación describe un perfil consistente de baja adopción del servicio:
+
+- Bajo uso reciente del servicio  
+- Relación comercial nueva  
+- Alta apertura de cuentas en el mismo periodo  
+
+🟠 Este patrón sugiere clientes con baja adopción inicial y potencial comportamiento no sostenible.
+
+---
+
+### ⚠️ Nota metodológica
+
+La interpretación se basa en una **ruta específica del árbol de decisión (decision path)**, no en reglas independientes aisladas.
+
+---
+
+## 📊 Evaluación de reglas propuestas (KPI redesign)
+
+A partir de los patrones identificados en el árbol de decisión, se proponen distintas definiciones operativas del KPI “Silentes”.
+
+| Definición | Regla | Precision | Recall |
+|------------|-------|----------:|-------:|
+| Actual | Regla original del negocio | 67% | 9% |
+| Propuesta 1 | Rama completa del árbol | 91.5% | 6.2% |
+| Propuesta 2 | Versión simplificada de la rama (sin cuentas aperturadas) | 58.9% | 33% |
+
+---
+
+### 📌 Diferencia entre las propuestas
+
+- **Propuesta 1 (rama completa del árbol):**  
+  Representa la segmentación más estricta identificada por el modelo, incorporando todas las condiciones de la rama “Silente”.
+
+- **Propuesta 2 (regla simplificada):**  
+  Relaja la condición eliminando el criterio de cuentas aperturadas, ampliando la cobertura del KPI.
+
+Esto genera un comportamiento típico de trade-off:
+
+- Mayor precisión → reglas más estrictas (Propuesta 1)  
+- Mayor recall → reglas más amplias (Propuesta 2)  
+
+---
+
+## 🧠 Conclusión
+
+El modelo confirma que el KPI “Silentes” no es arbitrario, sino que responde a patrones consistentes observables en el comportamiento del cliente.
+
+Sin embargo, su definición actual puede ser optimizada, ya que distintas combinaciones de variables generan mejoras significativas en la calidad operativa del indicador, habilitando su rediseño basado en evidencia.
 
 ## 🛠️ Tech Stack
 
