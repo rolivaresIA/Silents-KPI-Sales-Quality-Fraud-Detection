@@ -6,21 +6,21 @@ Proyecto analítico corporativo desarrollado en la industria de telecomunicacion
 
 ## 📌 1. Business Context
 
-El KPI Silentes era utilizado por el área comercial para identificar activaciones con baja probabilidad de representar clientes reales o comprometidos con el servicio, constituyendo un indicador clave para monitorear calidad de ventas y detectar posibles prácticas comerciales no deseadas.
+El KPI Silentes era utilizado por el área comercial para identificar activaciones sin tráfico de voz ni datos dentro de los primeros días posteriores a la venta, con el objetivo de detectar ventas de baja calidad susceptibles de ser descomisionadas dentro del esquema de comisiones comerciales.
 
 El análisis surge porque el KPI había permanecido sin cambios durante varios años, mientras los patrones comerciales evolucionaban.
 
-> ¿La definición histórica del KPI "Silentes" sigue siendo efectiva para detectar ventas de baja calidad o los patrones comerciales han cambiado con el tiempo?
+> ¿La definición histórica del KPI "Silentes" sigue siendo efectiva para detectar ventas de baja calidad o han cambiado los patrones de comportamiento del cliente?
 
 ---
 
 ## 📋 2. Definición del KPI Original
 
-El KPI de “silentes” fue definido históricamente como:
+El KPI de “Silentes” fue definido históricamente como:
 
 > Clientes (PCS: números telefónicos) sin tráfico de voz ni datos dentro de los 21 días posteriores a la venta.
 
-Sin embargo, con el tiempo se identificó un riesgo potencial:
+Con el tiempo se identificaron riesgos potenciales:
 
 - Los equipos comerciales pueden adaptar su comportamiento a métricas conocidas  
 - Las definiciones rígidas de KPI pueden perder capacidad explicativa en el tiempo  
@@ -30,39 +30,61 @@ Sin embargo, con el tiempo se identificó un riesgo potencial:
 
 ## 📊 3. Current KPI Performance (Baseline)
 
+## 📊 3. Current KPI Performance (Baseline)
+
+Este bloque muestra el desempeño del KPI “Silentes” bajo su definición original, utilizado como baseline para evaluar su capacidad de identificación de ventas de baja calidad.
+
+El análisis se basa en la matriz de confusión, la cual compara las predicciones del KPI contra el comportamiento real observado en red.
+
+---
+
+### 🔢 Confusion Matrix
+
+| Metric          | Value |
+|----------------|------:|
+| True Positives | 1776 |
+| False Positives| 873 |
+| False Negatives| 17346 |
+| True Negatives | 35226 |
+
+---
+
+### 📈 Performance Metrics
+
+| Metric     | Value |
+|-----------|------:|
+| Precision | 67% |
+| Recall    | 9.3% |
+
+**Interpretación:**
+
+- El KPI presenta **alta precisión**, lo que indica que cuando clasifica una venta como “silente”, suele ser correcto.  
+- Sin embargo, el **recall es muy bajo**, lo que implica que deja fuera una gran proporción de ventas de baja calidad.  
+- Esto sugiere un KPI conservador: preciso, pero poco sensible.
+
+---
+
+### 📉 Visual Overview
+
 <p align="center">
   <img src="4.Outputs/current_kpi_performance.PNG" width="600">
 </p>
 
-| Metric          | Value |
-|----------------|------:|
-| True Positives |  1776 |
-| False Positives|   873 |
-| False Negatives| 17346 |
-| True Negatives | 35226 |
-
-| Metric    | Performance |
-|----------|------------:|
-| Precision | 67% |
-| Recall    | 9.3% |
-
----
-
 ## 🎯 4. Objetivo del Proyecto
 
-- Evaluar la validez del KPI “silentes”  
-- Analizar si variables base siguen siendo discriminantes  
-- Detectar drift en comportamiento de usuarios  
-- Mejorar interpretabilidad del indicador  
+- Evaluar la validez del KPI “Silentes”  
+- Analizar si las variables base siguen siendo discriminantes  
+- Detectar drift en el comportamiento de usuarios  
+- Mejorar la interpretabilidad del indicador  
 
 ---
 
 ## 🧠 5. Hipótesis de Trabajo
 
-- El KPI sigue siendo válido pero no óptimo  
-- El comportamiento de red puede validar su robustez  
-- Existen variables adicionales relevantes  
-- El comportamiento temprano es clave  
+- El KPI sigue siendo válido, pero no necesariamente óptimo  
+- El comportamiento de red permite validar su robustez  
+- Existen variables adicionales con poder explicativo relevante  
+- El comportamiento temprano del cliente es clave para la validación del KPI    
 
 
 ## ⚙️ Data Sources
