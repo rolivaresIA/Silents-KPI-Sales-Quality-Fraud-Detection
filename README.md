@@ -6,6 +6,9 @@ El KPI Silentes era utilizado por el área comercial para identificar activacion
 
 El análisis surgió debido a que el KPI había permanecido sin modificaciones durante varios años y existía la hipótesis de que los patrones comerciales habían evolucionado, reduciendo su capacidad para detectar ventas de baja calidad. Mediante técnicas de Machine Learning se evaluó la importancia de las variables originales y se identificaron oportunidades para fortalecer la definición del indicador.
 
+> **Business Question**
+>
+> ¿La definición histórica del KPI "Silentes" sigue siendo efectiva para detectar ventas de baja calidad o los patrones comerciales han cambiado con el tiempo?
 ---
 
 ## 📋 Contexto del Problema
@@ -23,6 +26,27 @@ Sin embargo, con el tiempo se identificó un riesgo potencial:
 Esto genera la necesidad de responder una pregunta clave:
 
 > ❓ ¿La definición actual del KPI sigue capturando efectivamente las ventas de baja calidad?
+
+<p align="center">
+
+<img src="assets/business_problem.png" width="900">
+
+</p>
+
+# Current KPI Performance
+
+| Metric          | Value |
+| --------------- | ----: |
+| True Positives  |  1776 |
+| False Positives |   873 |
+| False Negatives | 17346 |
+| True Negatives  | 35226 |
+
+| Metric    | Performance |
+| --------- | ----------: |
+| Precision |         67% |
+| Recall    |        9.3% |
+
 
 ---
 
@@ -129,22 +153,18 @@ Se utilizó un modelo de árbol de decisión como herramienta interpretativa par
 ## 📁 Repository Structure
 
 ```text
+README.md
 │
-├── 1. KPI_Operational_Pipeline/
-│   ├── silentes_pipeline.py
-│   ├── description.md
+├── 1. Business Context
 │
-├── 2. Data_Building/
-│   ├── altas_loader.py
-│   ├── bigquery_queries.sql
-│   ├── traffic_engineering.py
+├── 2. Current KPI Performance
 │
-├── 3. ML_Validation/
-│   ├── decision_tree_model.ipynb
-│   ├── feature_importance_analysis.ipynb
+├── 3. End-to-End Pipeline
 │
-├── 4. Outputs/
-│   ├── ppt_presentacion.pdf
-│   ├── KPI_validation_results.png
+├── 4. Machine Learning Validation
 │
-└── README.md
+├── 5. Results
+│
+├── 6. Repository Structure
+│
+└── Código
