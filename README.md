@@ -12,8 +12,6 @@ El análisis surge porque el KPI había permanecido sin cambios durante varios a
 
 > ¿La definición histórica del KPI "Silentes" sigue siendo efectiva para detectar ventas de baja calidad o han cambiado los patrones de comportamiento del cliente?
 
----
-
 ## 📋 2. Definición del KPI Original
 
 El KPI de “Silentes” fue definido históricamente como:
@@ -25,8 +23,6 @@ Con el tiempo se identificaron riesgos potenciales:
 - Los equipos comerciales pueden adaptar su comportamiento a métricas conocidas  
 - Las definiciones rígidas de KPI pueden perder capacidad explicativa en el tiempo  
 - La relación entre activación y uso real puede evolucionar  
-
----
 
 ## 📊 3. Current KPI Performance (Baseline)
 
@@ -73,16 +69,12 @@ La siguiente tabla compara las predicciones del KPI con el comportamiento real o
   <img src="4.Outputs/current_kpi_performance.PNG" width="600">
 </p>
 
----
-
 ## 🎯 4. Objetivo del Proyecto
 
 - Evaluar la validez del KPI “Silentes”  
 - Analizar si las variables base siguen siendo discriminantes  
 - Detectar drift en el comportamiento de usuarios  
 - Mejorar la interpretabilidad del indicador  
-
----
 
 ## 🧠 5. Hipótesis de Trabajo
 
@@ -91,13 +83,60 @@ La siguiente tabla compara las predicciones del KPI con el comportamiento real o
 - Existen variables adicionales con poder explicativo relevante  
 - El comportamiento temprano del cliente es clave para la validación del KPI    
 
----
-
 ## ⚙️ 6. Data Pipeline / Data Construction
 
-- Altas comerciales (activaciones de clientes)
-- Tráfico de voz (entrante y saliente)
+El pipeline tiene como objetivo construir la variable objetivo “Silente”, integrando información de activaciones comerciales con el comportamiento real de uso en red dentro de una ventana temporal definida.
+
+El proceso se estructura en cuatro etapas:
+
+---
+
+### 6.1 Ingesta de activaciones comerciales
+
+Se cargan los registros de ventas (altas), que contienen el identificador del cliente (PCS) y la fecha de activación.
+
+- Fuente principal: sistema de ventas
+- Granularidad: una fila por activación
+- Variable clave: fecha de alta
+
+Script: `altas_loader.py`
+
+---
+
+### 6.2 Extracción de comportamiento de red
+
+Se extrae desde BigQuery el tráfico de voz y datos asociado a cada cliente.
+
+- Tráfico de voz entrante y saliente
 - Tráfico de datos móviles
+- Nivel de agregación por día y PCS
+
+Script: `bigquery_queries.sql`
+
+---
+
+### 6.3 Construcción de variables de comportamiento
+
+Se transforma el tráfico en variables analíticas dentro de una ventana de observación post-venta (21 días):
+
+- Presencia de actividad (sí/no)
+- Volumen acumulado de tráfico
+- Distribución temporal del uso
+- Actividad temprana post activación
+
+Script: `traffic_engineering.py`
+
+---
+
+### 6.4 Generación del KPI “Silente”
+
+Se integra la información de ventas y comportamiento de red para construir la variable objetivo:
+
+> Un cliente se clasifica como “Silente” si no presenta tráfico de voz ni datos dentro de los 21 días posteriores a la activación.
+
+Este paso consolida el dataset final utilizado para el análisis y el modelo de validación.
+
+Script: `silentes_pipeline.py`
 
 ---
 
