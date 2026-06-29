@@ -1,8 +1,10 @@
 # Redefinición KPI Silentes – KPI Validity & Behavioral Drift Analysis
 
-Proyecto analítico enfocado en la **evaluación y validación del KPI de “ventas de baja calidad (silentes)”**, con el objetivo de analizar si la definición operacional del indicador sigue siendo efectiva para capturar activaciones con baja adopción de servicio.
+Proyecto analítico corporativo desarrollado en la industria de telecomunicaciones, enfocado en la validación y redefinición del KPI de ventas de baja calidad ("Silentes"), utilizando un modelo de clasificación Decision Tree para identificar las variables con mayor capacidad predictiva y evaluar si la definición histórica del indicador seguía siendo efectiva.
 
-El análisis se centra en detectar posibles **desviaciones o adaptación del KPI por parte de los equipos comerciales**, y en evaluar si las variables utilizadas originalmente siguen siendo suficientes para representar calidad real de venta.
+El KPI Silentes era utilizado por el área comercial para identificar activaciones con baja probabilidad de representar clientes reales o comprometidos con el servicio, constituyendo un indicador clave para el monitoreo de la calidad de las ventas y la detección de posibles prácticas comerciales no deseadas.
+
+El análisis surgió debido a que el KPI había permanecido sin modificaciones durante varios años y existía la hipótesis de que los patrones comerciales habían evolucionado, reduciendo su capacidad para detectar ventas de baja calidad. Mediante técnicas de Machine Learning se evaluó la importancia de las variables originales y se identificaron oportunidades para fortalecer la definición del indicador.
 
 ---
 
@@ -10,7 +12,7 @@ El análisis se centra en detectar posibles **desviaciones o adaptación del KPI
 
 El KPI de “silentes” fue definido históricamente como:
 
-> Clientes (PCS) sin tráfico de voz ni datos dentro de los 21 días posteriores a la activación.
+> Clientes (PCS: Números telefónicos) sin tráfico de voz ni datos dentro de los 21 días posteriores a la venta.
 
 Sin embargo, con el tiempo se identificó un riesgo potencial:
 
