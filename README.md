@@ -30,8 +30,6 @@ Con el tiempo se identificaron riesgos potenciales:
 
 ## 📊 3. Current KPI Performance (Baseline)
 
-## 📊 3. Current KPI Performance (Baseline)
-
 Este bloque muestra el desempeño del KPI “Silentes” bajo su definición original, utilizado como baseline para evaluar su capacidad de identificación de ventas de baja calidad.
 
 El análisis se basa en la matriz de confusión, la cual compara las predicciones del KPI contra el comportamiento real observado en red.
@@ -40,12 +38,21 @@ El análisis se basa en la matriz de confusión, la cual compara las prediccione
 
 ### 🔢 Confusion Matrix
 
+La siguiente tabla compara las predicciones del KPI con el comportamiento real observado en la red:
+
 | Metric          | Value |
 |----------------|------:|
 | True Positives | 1776 |
 | False Positives| 873 |
 | False Negatives| 17346 |
 | True Negatives | 35226 |
+
+**¿Qué significa cada caso?**
+
+- **True Positives (1.776):** ventas que el KPI marcó como “silentes” y efectivamente no tuvieron uso de voz ni datos.  
+- **False Positives (873):** ventas que el KPI marcó como “silentes”, pero que sí mostraron uso real (errores del KPI).  
+- **False Negatives (17.346):** ventas que sí eran de baja calidad, pero el KPI no las detectó.  
+- **True Negatives (35.226):** ventas correctamente no marcadas como silentes, ya que sí presentaron uso.
 
 ---
 
@@ -58,9 +65,11 @@ El análisis se basa en la matriz de confusión, la cual compara las prediccione
 
 **Interpretación:**
 
-- El KPI presenta **alta precisión**, lo que indica que cuando clasifica una venta como “silente”, suele ser correcto.  
-- Sin embargo, el **recall es muy bajo**, lo que implica que deja fuera una gran proporción de ventas de baja calidad.  
-- Esto sugiere un KPI conservador: preciso, pero poco sensible.
+- El KPI es en un ~67% preciso: cuando marca una venta como de baja calidad, en la mayoría de los casos efectivamente lo es.  
+
+- Sin embargo, su sensibilidad es baja: no logra detectar una gran proporción de las ventas de baja calidad existentes (muchas quedan fuera del KPI).  
+
+- En la práctica, esto significa que el KPI funciona bien como mecanismo de control (evita errores al etiquetar), pero es limitado para capturar completamente el problema de ventas de baja calidad.
 
 ---
 
