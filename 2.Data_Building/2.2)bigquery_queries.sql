@@ -6,7 +6,6 @@
 -- dentro de una ventana de análisis post-activación.
 -- =========================================================
 
-
 -- =========================
 -- 1. TRÁFICO LLAMADAS SALIENTES
 -- =========================
@@ -113,3 +112,6 @@ FULL OUTER JOIN trafico_datos d
   AND COALESCE(s.PCS, e.PCS) = d.PCS
 
 ORDER BY FECHA, PCS;
+
+traffic = pandas_gbq.read_gbq(
+    sql, project_id=project_id, credentials=credentials, progress_bar_type="tqdm")
