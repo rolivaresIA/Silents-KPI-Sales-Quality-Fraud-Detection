@@ -129,16 +129,22 @@ Se utilizó un modelo de árbol de decisión como herramienta interpretativa par
 ## 📁 Repository Structure
 
 ```text
-├── notebooks/
-│   └── silentes_kpi_validation.ipynb
 │
-├── presentation/
-│   └── KPI_Redefinition_Silentes.pptx
+├── 1. KPI_Operational_Pipeline/
+│   ├── silentes_pipeline.py
+│   ├── description.md
 │
-├── sql/
-│   └── traffic_extraction.sql
+├── 2. Data_Building/
+│   ├── altas_loader.py
+│   ├── bigquery_queries.sql
+│   ├── traffic_engineering.py
 │
-├── data/
-│   └── dataset_processed.csv
+├── 3. ML_Validation/
+│   ├── decision_tree_model.ipynb
+│   ├── feature_importance_analysis.ipynb
+│
+├── 4. Outputs/
+│   ├── ppt_presentacion.pdf
+│   ├── KPI_validation_results.png
 │
 └── README.md
