@@ -1,73 +1,69 @@
-# Redefinición KPI Silentes – KPI Validity & Behavioral Drift Analysis
+# 📊 Redefinición KPI Silentes – KPI Validity & Behavioral Drift Analysis
 
-Proyecto analítico corporativo desarrollado en la industria de telecomunicaciones, enfocado en la validación y redefinición del KPI de ventas de baja calidad ("Silentes"), utilizando un modelo de clasificación Decision Tree para identificar las variables con mayor capacidad predictiva y evaluar si la definición histórica del indicador seguía siendo efectiva.
+Proyecto analítico corporativo desarrollado en la industria de telecomunicaciones, enfocado en la validación y redefinición del KPI de ventas de baja calidad ("Silentes"), utilizando un modelo de clasificación Decision Tree para evaluar la efectividad del indicador y su evolución en el tiempo.
 
-El KPI Silentes era utilizado por el área comercial para identificar activaciones con baja probabilidad de representar clientes reales o comprometidos con el servicio, constituyendo un indicador clave para el monitoreo de la calidad de las ventas y la detección de posibles prácticas comerciales no deseadas.
-
-El análisis surgió debido a que el KPI había permanecido sin modificaciones durante varios años y existía la hipótesis de que los patrones comerciales habían evolucionado, reduciendo su capacidad para detectar ventas de baja calidad. Mediante técnicas de Machine Learning se evaluó la importancia de las variables originales y se identificaron oportunidades para fortalecer la definición del indicador.
-
-> **Business Question**
->
-> ¿La definición histórica del KPI "Silentes" sigue siendo efectiva para detectar ventas de baja calidad o los patrones comerciales han cambiado con el tiempo?
 ---
 
-## 📋 Contexto del Problema
+## 📌 1. Business Context
+
+El KPI Silentes era utilizado por el área comercial para identificar activaciones con baja probabilidad de representar clientes reales o comprometidos con el servicio, constituyendo un indicador clave para monitorear calidad de ventas y detectar posibles prácticas comerciales no deseadas.
+
+El análisis surge porque el KPI había permanecido sin cambios durante varios años, mientras los patrones comerciales evolucionaban.
+
+> ¿La definición histórica del KPI "Silentes" sigue siendo efectiva para detectar ventas de baja calidad o los patrones comerciales han cambiado con el tiempo?
+
+---
+
+## 📋 2. Definición del KPI Original
 
 El KPI de “silentes” fue definido históricamente como:
 
-> Clientes (PCS: Números telefónicos) sin tráfico de voz ni datos dentro de los 21 días posteriores a la venta.
+> Clientes (PCS: números telefónicos) sin tráfico de voz ni datos dentro de los 21 días posteriores a la venta.
 
 Sin embargo, con el tiempo se identificó un riesgo potencial:
 
-- Los equipos comerciales pueden adaptar su comportamiento a métricas conocidas
-- Las definiciones rígidas de KPI pueden perder capacidad explicativa en el tiempo
-- La relación entre activación y uso real puede evolucionar
+- Los equipos comerciales pueden adaptar su comportamiento a métricas conocidas  
+- Las definiciones rígidas de KPI pueden perder capacidad explicativa en el tiempo  
+- La relación entre activación y uso real puede evolucionar  
 
-Esto genera la necesidad de responder una pregunta clave:
+---
 
-> ❓ ¿La definición actual del KPI sigue capturando efectivamente las ventas de baja calidad?
+## 📊 3. Current KPI Performance (Baseline)
 
 <p align="center">
-
-<img src="assets/business_problem.png" width="900">
-
+  <img src="4.Outputs/current_kpi_performance.PNG" width="600">
 </p>
 
-# Current KPI Performance
-
 | Metric          | Value |
-| --------------- | ----: |
-| True Positives  |  1776 |
-| False Positives |   873 |
-| False Negatives | 17346 |
-| True Negatives  | 35226 |
+|----------------|------:|
+| True Positives |  1776 |
+| False Positives|   873 |
+| False Negatives| 17346 |
+| True Negatives | 35226 |
 
 | Metric    | Performance |
-| --------- | ----------: |
-| Precision |         67% |
-| Recall    |        9.3% |
-
-
----
-
-## 🎯 Objetivo del Proyecto
-
-- Evaluar la validez del KPI “silentes” bajo su definición original
-- Analizar si las variables base del KPI siguen siendo discriminantes
-- Detectar patrones de comportamiento asociados a activaciones de baja calidad
-- Identificar posibles señales de “drift” o adaptación del KPI
-- Mejorar la interpretabilidad del indicador mediante análisis de variables
+|----------|------------:|
+| Precision | 67% |
+| Recall    | 9.3% |
 
 ---
 
-## 🧠 Hipótesis de Trabajo
+## 🎯 4. Objetivo del Proyecto
 
-- La definición actual del KPI puede seguir siendo válida, pero no necesariamente óptima
-- El comportamiento de red permite validar la robustez del indicador
-- Existen variables adicionales que pueden mejorar la capacidad explicativa del KPI
-- El comportamiento temprano del usuario es clave para validar calidad de venta
+- Evaluar la validez del KPI “silentes”  
+- Analizar si variables base siguen siendo discriminantes  
+- Detectar drift en comportamiento de usuarios  
+- Mejorar interpretabilidad del indicador  
 
 ---
+
+## 🧠 5. Hipótesis de Trabajo
+
+- El KPI sigue siendo válido pero no óptimo  
+- El comportamiento de red puede validar su robustez  
+- Existen variables adicionales relevantes  
+- El comportamiento temprano es clave  
+
 
 ## ⚙️ Data Sources
 
