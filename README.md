@@ -276,7 +276,12 @@ A partir de los patrones identificados en el árbol de decisión, se proponen di
 Esto genera un comportamiento típico de trade-off:
 
 - Mayor precisión → reglas más estrictas (Propuesta 1)  
-- Mayor recall → reglas más amplias (Propuesta 2)  
+- Mayor recall → reglas más amplias (Propuesta 2)
+
+
+<p align="center">
+  <img src="4.Outputs/comparative_proposals.PNG" width="850">
+</p>
 
 ---
 
