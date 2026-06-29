@@ -34,8 +34,6 @@ Este bloque muestra el desempeño del KPI “Silentes” bajo su definición ori
 
 El análisis se basa en la matriz de confusión, la cual compara las predicciones del KPI contra el comportamiento real observado en red.
 
----
-
 ### 🔢 Confusion Matrix
 
 La siguiente tabla compara las predicciones del KPI con el comportamiento real observado en la red:
@@ -69,8 +67,6 @@ La siguiente tabla compara las predicciones del KPI con el comportamiento real o
 
 - En la práctica, esto significa que el KPI funciona bien como mecanismo de control (evita errores al etiquetar), pero es limitado para capturar completamente el problema de ventas de baja calidad.
 
----
-
 ### 📉 Visual Overview
 
 <p align="center">
@@ -95,8 +91,9 @@ La siguiente tabla compara las predicciones del KPI con el comportamiento real o
 - Existen variables adicionales con poder explicativo relevante  
 - El comportamiento temprano del cliente es clave para la validación del KPI    
 
+---
 
-## ⚙️ Data Sources
+## ⚙️ 6. Data Pipeline / Data Construction
 
 - Altas comerciales (activaciones de clientes)
 - Tráfico de voz (entrante y saliente)
