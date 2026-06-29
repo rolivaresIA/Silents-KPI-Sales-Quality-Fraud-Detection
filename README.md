@@ -138,9 +138,7 @@ Este paso consolida el dataset final utilizado para el análisis y el modelo de 
 
 Script: `silentes_pipeline.py`
 
----
-
-## 🔄 Data Pipeline
+## 🌲 7. Feature Engineering / Variable Construction
 
 ### 1. Construcción del dataset base
 - Integración de altas comerciales con identificador PCS
