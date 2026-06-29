@@ -204,7 +204,7 @@ El análisis de **feature importance** se utiliza como etapa de priorización de
 Esta visualización muestra la contribución relativa de cada variable en la explicación del comportamiento del cliente.
 
 <p align="center">
-  <img src="4.Outputs/feature_importance.PNG" width="500">
+  <img src="4.Outputs/feature_importance.PNG" width="600">
 </p>
 
 ---
@@ -214,7 +214,7 @@ Esta visualización muestra la contribución relativa de cada variable en la exp
 Con base en las variables priorizadas, se entrena el modelo de árbol de decisión para extraer estructuras de decisión interpretables.
 
 <p align="center">
-  <img src="4.Outputs/decision_tree.PNG" width="650">
+  <img src="4.Outputs/decision_tree.PNG" width="700">
 </p>
 
 ---
@@ -279,7 +279,7 @@ Esto genera un comportamiento típico de trade-off:
 - Mayor recall → reglas más amplias (Propuesta 2)
 
 <p align="center">
-  <img src="4.Outputs/comparative_proposals.PNG" width="500">
+  <img src="4.Outputs/comparative_proposals.PNG" width="600">
 </p>
 
 ---
