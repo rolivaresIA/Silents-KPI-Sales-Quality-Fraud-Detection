@@ -1,4 +1,4 @@
-📊 Redefinición KPI Silentes – KPI Validity & Behavioral Drift Analysis
+# 📊 Redefinición KPI Silentes – KPI Validity & Behavioral Drift Analysis
 
 Proyecto analítico corporativo desarrollado en la industria de telecomunicaciones, enfocado en la validación y redefinición del KPI de ventas de baja calidad ("Silentes"), utilizando un modelo de clasificación Decision Tree para evaluar la efectividad del indicador y su evolución en el tiempo.
 
