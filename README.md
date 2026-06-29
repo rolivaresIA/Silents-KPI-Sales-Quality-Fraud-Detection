@@ -54,8 +54,6 @@ La siguiente tabla compara las predicciones del KPI con el comportamiento real o
 - **False Negatives (17.346):** ventas que sí eran de baja calidad, pero el KPI no las detectó.  
 - **True Negatives (35.226):** ventas correctamente no marcadas como silentes, ya que sí presentaron uso.
 
----
-
 ### 📈 Performance Metrics
 
 | Metric     | Value |
@@ -78,6 +76,8 @@ La siguiente tabla compara las predicciones del KPI con el comportamiento real o
 <p align="center">
   <img src="4.Outputs/current_kpi_performance.PNG" width="600">
 </p>
+
+---
 
 ## 🎯 4. Objetivo del Proyecto
 
